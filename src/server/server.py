@@ -14,9 +14,10 @@ class Server(image_pb2_grpc.ImageTestServicer):
     def Analyse(self, request_iterator, context):
         for req in request_iterator:
           print('rec')
-          frame = np.array(list(req.img))
-          frame = np.array(frame, dtype = np.uint8 )
-          print(frame)
+          frame = np.frombuffer(req.img,dtype=np.uint8)
+          width_d, height_d = 280, 280  # Declare your own width and height
+          frame=frame.reshape(width_d, height_d)
+          print(frame.shape)
           cv2.imshow('res',frame)
           yield image_pb2.MsgReply(reply=1)
 

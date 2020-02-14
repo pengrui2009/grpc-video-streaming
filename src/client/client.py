@@ -9,9 +9,8 @@ from PIL import Image
 def run():
     channel = grpc.insecure_channel('127.0.0.1:50051')
     stub = image_pb2_grpc.ImageTestStub(channel)
-    generateRequests()
-    # for response in stub.Analyse(generateRequests()):
-    #   print(str(response.reply))
+    for response in stub.Analyse(generateRequests()):
+      print(str(response.reply))
 
 
 def infinity(cap):
