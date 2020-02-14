@@ -15,18 +15,14 @@ while(cap.isOpened()):
     pil_image = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
     pil_image = Image.fromarray(pil_image).convert('L')
     numpy_array = np.array(pil_image, 'uint8')
-    # pil_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    # pil_image = Image.fromarray(pil_image).convert('L')
-    # numpy_array = np.array(pil_image, 'uint8').tobytes()
+    print(numpy_array.shape)
+    numpy_array=numpy_array.tobytes()
     print(len(numpy_array))
 
-
-
-    frame = np.array(list(numpy_array))
-    frame = np.array(frame, dtype = np.uint8 )
-    # frame = np.array(numpy_array)
+    frame = np.frombuffer(numpy_array,dtype=np.uint8)
+    # frame = np.array(list(frame))
     # frame = np.array(frame, dtype = np.uint8 )
-    # frame= np.frombuffer(numpy_array, dtype='uint8') 
+    frame=frame.reshape(width_d, height_d)
     print(frame.shape)
     cv2.imshow('res',frame)
 
