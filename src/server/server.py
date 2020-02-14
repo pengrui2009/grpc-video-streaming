@@ -13,9 +13,12 @@ class Server(image_pb2_grpc.ImageTestServicer):
 
     def Analyse(self, request_iterator, context):
         for req in request_iterator:
-          frame = np.array(req.img)
-          print(type(frame))
-          cv2.imshow('Processed Image', frame)
+          print(type(req.img))
+          print(len(req.img))
+          # frame=np.fromstring(req.img, np.uint8)
+          # cv2.imshow('Processed Image', frame)
+          frame= np.frombuffer(req.img, dtype='uint8') 
+          cv2.imshow('res',frame)
           yield image_pb2.MsgReply(reply=1)
 
 

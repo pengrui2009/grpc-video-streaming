@@ -1,32 +1,35 @@
 import grpc
-import cv2
 import image_pb2
 import image_pb2_grpc
-import skvideo.io
+import numpy as np
+import cv2
 
-URL = "run_terraform.mkv"
 
 
 def run():
     channel = grpc.insecure_channel('127.0.0.1:50051')
     stub = image_pb2_grpc.ImageTestStub(channel)
-    for response in stub.Analyse( generateRequests() ):
+    for response in stub.Analyse(generateRequests()):
       print(str(response.reply))
 
-def infinity():
-    while True:
+
+def infinity(cap):
+    while cap.isOpened():
+        print('cap is open')
         yield
+    print('cap is not open anymore')
+
 
 def generateRequests():
    cap = cv2.VideoCapture(0)
-   for _ in infinity():
-       # Capture frame-by-frame
-       ret, frame = cap.read()
-       # Our operations on the frame come here
-       gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-       # Display the resulting frame cv2.imshow('frame', gray)
-       frame = bytes(frame)
-       yield image_pb2.MsgRequest(img=frame)
+   for _ in infinity(cap):
+        ret, frame = cap.read()
+        # pil_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # pil_image = Image.fromarray(pil_image).convert('L')
+        # numpy_array = np.array(pil_image, 'uint8').tobytes()
+        # print(len(numpy_array))
+        cv2.imshow('test2',frame)
+        yield image_pb2.MsgRequest(img=bytes(frame))
 
 
 if __name__ == '__main__':
