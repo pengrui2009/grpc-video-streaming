@@ -3,7 +3,8 @@ import cv2
 from PIL import Image
 
 cap = cv2.VideoCapture(0)
-
+out = cv2.VideoWriter('video.avi',cv2.VideoWriter_fourcc(*"MJPG"), 30, (280,280),isColor=False)
+counter=0
 while(cap.isOpened()):
     ret, frame = cap.read()
 
@@ -25,10 +26,14 @@ while(cap.isOpened()):
     frame=frame.reshape(width_d, height_d)
     print(frame.shape)
     cv2.imshow('res',frame)
+    out.write(frame)
+    counter=counter+1
 
-
-
+    if counter==300:
+        out.release()
+        break
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        out.release()
         break
 
 cap.release()

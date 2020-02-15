@@ -12,14 +12,25 @@ _ONE_DAY_IN_SECONDS = 0
 class Server(image_pb2_grpc.ImageTestServicer):
 
     def Analyse(self, request_iterator, context):
-        for req in request_iterator:
-          print('rec')
-          frame = np.frombuffer(req.img,dtype=np.uint8)
-          width_d, height_d = 280, 280  # Declare your own width and height
-          frame=frame.reshape(width_d, height_d)
-          print(frame.shape)
-          cv2.imshow('res',frame)
-          yield image_pb2.MsgReply(reply=1)
+        out = cv2.VideoWriter('video.avi',cv2.VideoWriter_fourcc(*'DIVX'), 30, (280,280),isColor=False)
+        print(type(request_iterator))
+        print(type(context))
+        try:
+          for req in request_iterator:
+            print('rec')
+            frame = np.frombuffer(req.img,dtype=np.uint8)
+            width_d, height_d = 280, 280  # Declare your own width and height
+            frame=frame.reshape(width_d, height_d)
+            print(frame.shape)
+            # cv2.imwrite("frame.jpg", frame) 
+            # cv2.imshow('res',frame)
+            out.write(frame)
+            yield image_pb2.MsgReply(reply=1)
+        except Exception as identifier:
+          print('exception occured')
+
+        print('relase')
+        out.release()
 
 
 def serve():

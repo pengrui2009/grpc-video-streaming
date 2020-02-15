@@ -32,6 +32,9 @@ def generateRequests():
         numpy_array = np.array(pil_image, 'uint8')
         print(numpy_array)
         print(type(numpy_array))
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            yield image_pb2.MsgRequest(img=numpy_array.tobytes())
+            break
         yield image_pb2.MsgRequest(img=numpy_array.tobytes())
 
 
