@@ -1,0 +1,4 @@
+grpcio
+grpcio-tools
+opencv-python
+scikit-video
