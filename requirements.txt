@@ -1,3 +1,5 @@
+autopep8
+pylint
 grpcio
 grpcio-tools
 opencv-python

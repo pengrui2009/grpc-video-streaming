@@ -1,6 +1,5 @@
 import grpc
-import image_pb2
-import image_pb2_grpc
+from shared import image_pb2,image_pb2_grpc
 import numpy as np
 import cv2
 from PIL import Image

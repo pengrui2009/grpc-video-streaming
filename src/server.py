@@ -1,8 +1,5 @@
-import image_pb2
-import image_pb2_grpc
-from concurrent import futures
 import grpc
-import time
+from shared import image_pb2,image_pb2_grpc
 import cv2
 import numpy as np
 
