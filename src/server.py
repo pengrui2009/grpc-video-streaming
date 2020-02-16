@@ -1,7 +1,10 @@
 import grpc
-from shared import image_pb2,image_pb2_grpc
+import shared.image_pb2 as image_pb2
+import shared.image_pb2_grpc as image_pb2_grpc
 import cv2
 import numpy as np
+import time
+from concurrent import futures
 
 _ONE_DAY_IN_SECONDS = 0
 
