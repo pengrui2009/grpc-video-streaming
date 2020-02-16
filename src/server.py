@@ -13,7 +13,7 @@ MAX_WORKERS_NUMBER = 10
 
 class Server(video_frame_pb2_grpc.VideoFrameServicer):
 
-    def set_parameters_on_first_frame(self, request: video_frame_pb2.FrameRequest):
+    def set_parameters_on_first_frame(self, request):
         width_d, height_d = request.width, request.height
         out_stream = cv2.VideoWriter(f"video_{dt.datetime.now()}.avi", cv2.VideoWriter_fourcc(
             *'DIVX'), request.fps, (request.width, request.height), isColor=request.isColor)
@@ -24,7 +24,9 @@ class Server(video_frame_pb2_grpc.VideoFrameServicer):
         try:
             for req in request_iterator:
                 if out_stream is None:
-                    out_stream, width_d, height_d = self.set_parameters_on_first_frame
+                    out_stream, width_d, height_d = self.set_parameters_on_first_frame(
+                        req)
+                    print(f"Variables were set:{width_d}, {height_d}")
                 frame = np.frombuffer(req.img, dtype=np.uint8)
                 frame = frame.reshape(width_d, height_d)
                 out_stream.write(frame)
@@ -33,8 +35,9 @@ class Server(video_frame_pb2_grpc.VideoFrameServicer):
         except Exception as identifier:
             print(f'Exception occured when receiving frames. Ex: {identifier}')
         print(f"{dt.datetime.now()}: Video will be saved")
-        out_stream.release()
-        print(f"{dt.datetime.now()}: Video SAVED")
+        if out_stream is not None:
+            out_stream.release()
+            print(f"{dt.datetime.now()}: Video SAVED")
 
 
 def serve():
