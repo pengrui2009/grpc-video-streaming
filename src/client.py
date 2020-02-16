@@ -6,14 +6,7 @@ import cv2
 from PIL import Image
 
 
-def run():
-    channel = grpc.insecure_channel('127.0.0.1:50051')
-    stub = image_pb2_grpc.ImageTestStub(channel)
-    for response in stub.Analyse(generateRequests()):
-      print(str(response.reply))
-
-
-def infinity(cap):
+def infinity_loop(cap):
     while cap.isOpened():
         print('cap is open')
         yield
@@ -21,8 +14,8 @@ def infinity(cap):
 
 
 def generateRequests():
-   cap = cv2.VideoCapture(0)
-   for _ in infinity(cap):
+    cap = cv2.VideoCapture(0)
+    for _ in infinity_loop(cap):
         ret, frame = cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         width_d, height_d = 280, 280  # Declare your own width and height
@@ -32,11 +25,15 @@ def generateRequests():
         numpy_array = np.array(pil_image, 'uint8')
         print(numpy_array)
         print(type(numpy_array))
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            yield image_pb2.MsgRequest(img=numpy_array.tobytes())
-            break
         yield image_pb2.MsgRequest(img=numpy_array.tobytes())
 
 
+def run():
+    channel = grpc.insecure_channel('127.0.0.1:50051')
+    stub = image_pb2_grpc.ImageTestStub(channel)
+    for response in stub.Analyse(generateRequests()):
+        print(str(response.reply))
+
+
 if __name__ == '__main__':
-  run()
+    run()
