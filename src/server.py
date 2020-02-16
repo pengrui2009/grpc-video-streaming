@@ -1,48 +1,54 @@
 import grpc
-import shared.image_pb2 as image_pb2
-import shared.image_pb2_grpc as image_pb2_grpc
+import shared.video_frame_pb2 as video_frame_pb2
+import shared.video_frame_pb2_grpc as video_frame_pb2_grpc
 import cv2
 import numpy as np
 import time
 from concurrent import futures
+import datetime as dt
 
 _ONE_DAY_IN_SECONDS = 0
+MAX_WORKERS_NUMBER = 10
 
 
-class Server(image_pb2_grpc.ImageTestServicer):
+class Server(video_frame_pb2_grpc.VideoFrameServicer):
 
-    def Analyse(self, request_iterator, context):
-        out = cv2.VideoWriter('video.avi', cv2.VideoWriter_fourcc(
-            *'DIVX'), 30, (280, 280), isColor=False)
-        print(type(request_iterator))
-        print(type(context))
+    def set_parameters_on_first_frame(self, request: video_frame_pb2.FrameRequest):
+        width_d, height_d = request.width, request.height
+        out_stream = cv2.VideoWriter(f"video_{dt.datetime.now()}.avi", cv2.VideoWriter_fourcc(
+            *'DIVX'), request.fps, (request.width, request.height), isColor=request.isColor)
+        return out_stream, width_d, height_d
+
+    def Send(self, request_iterator, context):
+        width, height, fps, isColor, out_stream = None, None, None, None, None
         try:
             for req in request_iterator:
-                print('rec')
+                if out_stream is None:
+                    out_stream, width_d, height_d = self.set_parameters_on_first_frame
                 frame = np.frombuffer(req.img, dtype=np.uint8)
-                width_d, height_d = 280, 280  # Declare your own width and height
                 frame = frame.reshape(width_d, height_d)
-                print(frame.shape)
-                # cv2.imwrite("frame.jpg", frame)
-                # cv2.imshow('res',frame)
-                out.write(frame)
-                yield image_pb2.MsgReply(reply=1)
+                out_stream.write(frame)
+                print(f"{dt.datetime.now()}: Received frame")
+                yield video_frame_pb2.FrameReply(reply=1)
         except Exception as identifier:
-            print(f'exception occured. Ex: {identifier}')
-        print('relase')
-        out.release()
+            print(f'Exception occured when receiving frames. Ex: {identifier}')
+        print(f"{dt.datetime.now()}: Video will be saved")
+        out_stream.release()
+        print(f"{dt.datetime.now()}: Video SAVED")
 
 
 def serve():
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    image_pb2_grpc.add_ImageTestServicer_to_server(Server(), server)
+    server = grpc.server(futures.ThreadPoolExecutor(
+        max_workers=MAX_WORKERS_NUMBER))
+    video_frame_pb2_grpc.add_VideoFrameServicer_to_server(Server(), server)
     server.add_insecure_port('[::]:50051')
-    print('Server starting')
+    print(f"{dt.datetime.now()}: Server starting")
     server.start()
     try:
         while True:
             time.sleep(_ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
+        print(f"{dt.datetime.now()}: Server stopping")
         server.stop(0)
 
 

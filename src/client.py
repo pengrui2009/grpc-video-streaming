@@ -1,6 +1,6 @@
 import grpc
-import shared.image_pb2 as image_pb2
-import shared.image_pb2_grpc as image_pb2_grpc
+import shared.video_frame_pb2 as video_frame_pb2
+import shared.video_frame_pb2_grpc as video_frame_pb2_grpc
 import numpy as np
 import cv2
 from PIL import Image
@@ -8,12 +8,12 @@ from PIL import Image
 
 def infinity_loop(cap):
     while cap.isOpened():
-        print('cap is open')
         yield
-    print('cap is not open anymore')
+    print('Camera stream was closed')
 
 
 def generateRequests():
+    print('Accessing camera stream')
     cap = cv2.VideoCapture(0)
     for _ in infinity_loop(cap):
         ret, frame = cap.read()
@@ -25,13 +25,13 @@ def generateRequests():
         numpy_array = np.array(pil_image, 'uint8')
         print(numpy_array)
         print(type(numpy_array))
-        yield image_pb2.MsgRequest(img=numpy_array.tobytes())
+        yield video_frame_pb2.FrameRequest(img=numpy_array.tobytes())
 
 
 def run():
     channel = grpc.insecure_channel('127.0.0.1:50051')
-    stub = image_pb2_grpc.ImageTestStub(channel)
-    for response in stub.Analyse(generateRequests()):
+    stub = video_frame_pb2_grpc.VideoFrameStub(channel)
+    for response in stub.Send(generateRequests()):
         print(str(response.reply))
 
 
