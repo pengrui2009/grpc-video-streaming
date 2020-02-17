@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "ENV/bin/python",
+    "python.pythonPath": "ENV\\Scripts\\python.exe",
     "python.jediEnabled": false
 }

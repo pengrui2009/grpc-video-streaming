@@ -15,7 +15,7 @@ class Server(video_frame_pb2_grpc.VideoFrameServicer):
 
     def set_parameters_on_first_frame(self, request):
         width_d, height_d = request.width, request.height
-        out_stream = cv2.VideoWriter(f"video_{dt.datetime.now()}.avi", cv2.VideoWriter_fourcc(
+        out_stream = cv2.VideoWriter(f"video_{dt.date.today()}.avi", cv2.VideoWriter_fourcc(
             *'DIVX'), request.fps, (request.width, request.height), isColor=request.isColor)
         return out_stream, width_d, height_d
 
@@ -28,7 +28,7 @@ class Server(video_frame_pb2_grpc.VideoFrameServicer):
                         req)
                     print(f"Variables were set:{width_d}, {height_d}")
                 frame = np.frombuffer(req.img, dtype=np.uint8)
-                frame = frame.reshape(width_d, height_d)
+                frame = frame.reshape(height_d, width_d)
                 out_stream.write(frame)
                 print(f"{dt.datetime.now()}: Received frame")
                 yield video_frame_pb2.FrameReply(reply=1)
