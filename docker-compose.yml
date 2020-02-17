@@ -1,8 +1,0 @@
-version: '2.1'
-
-services:
-  video-streaming-grpc:
-    image: video-streaming-grpc
-    build: .
-    ports:
-      - 50051:50051

@@ -1,12 +1,10 @@
 FROM python:3.8.1-slim-buster
 
-LABEL Name=video-streaming-grpc Version=0.0.1
+LABEL Name=video-streaming-grpc-server Version=0.0.1
 EXPOSE 50051
 
 WORKDIR /src
-ADD ./src/shared /src/shared
-ADD ./src/server.py /src
-ADD ./requirements.txt /src
+ADD /server /src
 
 RUN apt-get update
 RUN apt-get install -y libgtk2.0-dev

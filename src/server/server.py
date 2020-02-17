@@ -1,6 +1,6 @@
 import grpc
-import shared.video_frame_pb2 as video_frame_pb2
-import shared.video_frame_pb2_grpc as video_frame_pb2_grpc
+import video_frame_pb2
+import video_frame_pb2_grpc
 import cv2
 import numpy as np
 import time
