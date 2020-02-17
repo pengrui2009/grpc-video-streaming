@@ -23,10 +23,7 @@ def generateRequests():
         ret, frame = cap.read()
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         if width is None:
-            print(gray.shape)
             height, width = gray.shape
-        print(height,width)
-        print(type(height),type(width))
         yield video_frame_pb2.FrameRequest(
             img=gray.tobytes(),
             width=width,
