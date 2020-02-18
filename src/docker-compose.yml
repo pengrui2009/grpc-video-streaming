@@ -11,5 +11,11 @@ services:
     volumes:
       - videos:/src/videos
 
+  videoserverdotnetcore:
+    image: ${DOCKER_REGISTRY-}videoserverdotnetcore
+    build:
+      context: .
+      dockerfile: VideoServerDotNetCore/Dockerfile
+
 volumes:
   videos:

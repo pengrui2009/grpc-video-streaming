@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  grpc-video-server:
+    image: grpc-video-server
+    build:
+      context: .
+      dockerfile: video-server/Dockerfile
+    ports:
+      - 50051:50051
+    volumes:
+      - videos:/src/videos
+
+  videoserverdotnetcore:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+volumes:
+  videos:
