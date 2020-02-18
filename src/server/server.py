@@ -6,16 +6,25 @@ import numpy as np
 import time
 from concurrent import futures
 import datetime as dt
+from os import path, mkdir
 
 _ONE_DAY_IN_SECONDS = 0
 MAX_WORKERS_NUMBER = 10
+PATH_TO_FILES = "./videos"
 
 
 class Server(video_frame_pb2_grpc.VideoFrameServicer):
 
+    def __init__(self):
+        super().__init__()
+        if not path.isdir(PATH_TO_FILES):
+            mkdir(PATH_TO_FILES)
+
     def set_parameters_on_first_frame(self, request):
         width_d, height_d = request.width, request.height
-        out_stream = cv2.VideoWriter(f"video_{dt.date.today()}.avi", cv2.VideoWriter_fourcc(
+        file_name = f"video_{dt.date.today()}.avi"
+        file_path = path.join(PATH_TO_FILES, file_name)
+        out_stream = cv2.VideoWriter(file_path, cv2.VideoWriter_fourcc(
             *'DIVX'), request.fps, (request.width, request.height), isColor=request.isColor)
         return out_stream, width_d, height_d
 
