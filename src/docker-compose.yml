@@ -16,6 +16,9 @@ services:
     build:
       context: .
       dockerfile: VideoServerDotNetCore/Dockerfile
+    ports:
+      - "8080:80"
+      - "44321:443"
 
 volumes:
   videos:
