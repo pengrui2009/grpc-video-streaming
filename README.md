@@ -37,5 +37,6 @@ python ./src/client/client.py
 ## Generate new proto files example
 1. Run from root folder
 ```bash
-python -m grpc_tools.protoc -I./src/protos --python_out=./src/ --grpc_python_out=./src/ ./src/protos/video_frame.proto
+python -m grpc_tools.protoc -I./src/protos --python_out=./src/video-server --grpc_python_out=./src/video-server ./src/protos/video_frame.proto
+python -m grpc_tools.protoc -I./src/protos --python_out=./src/video-sender --grpc_python_out=./src/video-sender ./src/protos/video_frame.proto
 ```

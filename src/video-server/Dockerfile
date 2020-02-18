@@ -4,7 +4,7 @@ LABEL Name=video-streaming-grpc-server Version=0.0.1
 EXPOSE 50051
 
 WORKDIR /src
-ADD /server /src
+ADD /video-server /src
 
 RUN apt-get update
 RUN apt-get install -y libgtk2.0-dev
