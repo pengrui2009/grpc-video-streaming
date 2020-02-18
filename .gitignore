@@ -109,3 +109,4 @@ venv.bak/
 #ignore .net core
 **/bin
 **/obj
+**/.vs
