@@ -1,10 +1,10 @@
 FROM python:3.8.1-slim-buster
 
-LABEL Name=grpc-video-serve Version=0.0.1
+LABEL Name=grpc-video-server-python Version=0.0.1
 EXPOSE 50051
 
 WORKDIR /src
-ADD /video-server /src
+ADD /video-server-python /src
 
 RUN apt-get update
 RUN apt-get install -y libgtk2.0-dev

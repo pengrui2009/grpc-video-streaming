@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{657504E6-532B-4C4F-8559-EF78BB953990}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoServerDotNetCore", "src\VideoServerDotNetCore\VideoServerDotNetCore.csproj", "{0C8F9A02-5CF9-4506-8301-0B3FA1F4D8F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoServerDotNetCore", "src\video-server-dotnetcore\VideoServer.csproj", "{0C8F9A02-5CF9-4506-8301-0B3FA1F4D8F5}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "src\docker-compose.dcproj", "{B9BB5A0E-80B7-4B45-AA53-F0250002B178}"
 EndProject

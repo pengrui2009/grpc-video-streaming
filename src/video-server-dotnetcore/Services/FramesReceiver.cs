@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 
-namespace VideoServerDotNetCore.Services
+namespace VideoServer.gRPC.Services
 {
     public class FramesReceiver : VideoFrame.VideoFrameBase
     {

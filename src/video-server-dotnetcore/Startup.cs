@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VideoServerDotNetCore.Services;
+using VideoServer.gRPC.Services;
 
-namespace VideoServerDotNetCore
+namespace VideoServer.gRPC
 {
     public class Startup
     {
