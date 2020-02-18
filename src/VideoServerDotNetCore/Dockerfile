@@ -4,13 +4,14 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+EXPOSE 5051
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/VideoServerDotNetCore/VideoServerDotNetCore.csproj", "src/VideoServerDotNetCore/"]
-RUN dotnet restore "src/VideoServerDotNetCore/VideoServerDotNetCore.csproj"
+COPY ["VideoServerDotNetCore/VideoServerDotNetCore.csproj", "VideoServerDotNetCore/"]
+RUN dotnet restore "VideoServerDotNetCore/VideoServerDotNetCore.csproj"
 COPY . .
-WORKDIR "/src/src/VideoServerDotNetCore"
+WORKDIR "/src/VideoServerDotNetCore"
 RUN dotnet build "VideoServerDotNetCore.csproj" -c Release -o /app/build
 
 FROM build AS publish

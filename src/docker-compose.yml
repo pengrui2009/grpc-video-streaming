@@ -19,6 +19,7 @@ services:
     ports:
       - "8080:80"
       - "44321:443"
+      - "5001:5001"
 
 volumes:
   videos:
