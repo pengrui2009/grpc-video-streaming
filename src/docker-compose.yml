@@ -1,11 +1,11 @@
 version: "3.7"
 
 services:
-  video-streaming-grpc-server:
-    image: video-streaming-grpc-server
+  grpc-video-server:
+    image: grpc-video-server
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: video-server/Dockerfile
     ports:
       - 50051:50051
     volumes:

@@ -1,6 +1,6 @@
 FROM python:3.8.1-slim-buster
 
-LABEL Name=video-streaming-grpc-server Version=0.0.1
+LABEL Name=grpc-video-serve Version=0.0.1
 EXPOSE 50051
 
 WORKDIR /src
