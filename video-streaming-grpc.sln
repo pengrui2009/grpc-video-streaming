@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{657504E6-532B-4C4F-8559-EF78BB953990}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoServerDotNetCore", "src\video-server-dotnetcore\VideoServer.csproj", "{0C8F9A02-5CF9-4506-8301-0B3FA1F4D8F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoServer", "src\video-server-dotnetcore\VideoServer.csproj", "{0C8F9A02-5CF9-4506-8301-0B3FA1F4D8F5}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "src\docker-compose.dcproj", "{B9BB5A0E-80B7-4B45-AA53-F0250002B178}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kafka-consumer", "src\kafka-consumer\kafka-consumer.csproj", "{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kafka-publisher", "src\kafka-producer\kafka-publisher.csproj", "{7F3723DD-BB9F-4448-9497-13ACEFC60875}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,12 +47,38 @@ Global
 		{B9BB5A0E-80B7-4B45-AA53-F0250002B178}.Release|x64.Build.0 = Release|Any CPU
 		{B9BB5A0E-80B7-4B45-AA53-F0250002B178}.Release|x86.ActiveCfg = Release|Any CPU
 		{B9BB5A0E-80B7-4B45-AA53-F0250002B178}.Release|x86.Build.0 = Release|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Debug|x64.Build.0 = Debug|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Debug|x86.Build.0 = Debug|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Release|x64.ActiveCfg = Release|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Release|x64.Build.0 = Release|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Release|x86.ActiveCfg = Release|Any CPU
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B}.Release|x86.Build.0 = Release|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Debug|x64.Build.0 = Debug|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Debug|x86.Build.0 = Debug|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Release|x64.ActiveCfg = Release|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Release|x64.Build.0 = Release|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Release|x86.ActiveCfg = Release|Any CPU
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0C8F9A02-5CF9-4506-8301-0B3FA1F4D8F5} = {657504E6-532B-4C4F-8559-EF78BB953990}
+		{AB6E33AC-9ED7-4F1C-8FB9-AAE2CBD9B19B} = {657504E6-532B-4C4F-8559-EF78BB953990}
+		{7F3723DD-BB9F-4448-9497-13ACEFC60875} = {657504E6-532B-4C4F-8559-EF78BB953990}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA37EC4C-FB6D-4AF5-8685-86B3DF5B3235}
