@@ -23,5 +23,13 @@ services:
     volumes:
       - videos:/src/videos
 
+  # front:
+  #   image: front
+  #   build:
+  #     context: .
+  #     dockerfile: front/Dockerfile
+  #   ports:
+  #     - 3000:3000
+
 volumes:
   videos:
