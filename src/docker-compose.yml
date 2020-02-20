@@ -1,15 +1,15 @@
 version: "3.7"
 
 services:
-  grpc-video-server-python:
-    image: grpc-video-server-python
-    build:
-      context: .
-      dockerfile: video-server-python/Dockerfile
-    ports:
-      - 50051:50051
-    volumes:
-      - videos:/src/videos
+  # grpc-video-server-python:
+  #   image: grpc-video-server-python
+  #   build:
+  #     context: .
+  #     dockerfile: video-server-python/Dockerfile
+  #   ports:
+  #     - 50051:50051
+  #   volumes:
+  #     - videos:/src/videos
 
   grpc-video-server-dotnetcore:
     image: grpc-video-server-dotnetcore
@@ -20,6 +20,8 @@ services:
       - "8080:80"
       - "44321:443"
       - "5001:5001"
+    volumes:
+      - videos:/src/videos
 
 volumes:
   videos:

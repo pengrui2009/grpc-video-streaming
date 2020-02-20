@@ -2,8 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
+using OpenCvSharp;
 
-namespace VideoServer.gRPC.Services
+namespace VideoServer.Services
 {
     public class FramesReceiver : VideoFrame.VideoFrameBase
     {
@@ -17,16 +18,28 @@ namespace VideoServer.gRPC.Services
         public override async Task Send(IAsyncStreamReader<FrameRequest> requestStream,
             IServerStreamWriter<FrameReply> responseStream, ServerCallContext context)
         {
+            VideoWriter writer = null;
             try
             {
-                while (!context.CancellationToken.IsCancellationRequested)
+                var requestsStream = requestStream.ReadAllAsync(context.CancellationToken);
+
+                await foreach (var request in requestsStream)
                 {
-                    Console.WriteLine("Receive");
+                    if (writer == null)
+                        writer = new VideoWriter(".//widelo.avi", FourCCValues.DIVX, request.Fps,
+                            new Size(request.Width, request.Height), request.IsColor);
+
+                    var readMode = request.IsColor ? ImreadModes.Color : ImreadModes.Grayscale;
+                    var frame = Cv2.ImDecode(request.Img.ToByteArray(), readMode);
+                    writer.Write(frame);
+
                     await responseStream.WriteAsync(new FrameReply {Reply = 1});
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                writer?.Release();
+                Console.WriteLine(ex);
                 Console.WriteLine("Exception occured when receiving frames");
             }
         }
