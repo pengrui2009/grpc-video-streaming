@@ -31,6 +31,7 @@ class Server(video_frame_pb2_grpc.VideoFrameServicer):
     def Send(self, request_iterator, context):
         width, height, fps, isColor, out_stream = None, None, None, None, None
         try:
+            cv2.namedWindow("view-video-stream")
             for req in request_iterator:
                 if out_stream is None:
                     out_stream, width_d, height_d = self.set_parameters_on_first_frame(
@@ -38,14 +39,20 @@ class Server(video_frame_pb2_grpc.VideoFrameServicer):
                     print(f"Variables were set:{width_d}, {height_d}")
                 frame = np.frombuffer(req.img, dtype=np.uint8)
                 frame = frame.reshape(height_d, width_d)
-                out_stream.write(frame)
+                cv2.imshow("view-video-stream", frame)
+                # out_stream.write(frame)
                 print(f"{dt.datetime.now()}: Received frame")
                 yield video_frame_pb2.FrameReply(reply=1)
+                client_key_press = cv2.waitKey(1) & 0xFF
+                # end video stream by escape key
+                if client_key_press == 27:
+                    break
         except Exception as identifier:
             print(f'Exception occured when receiving frames. Ex: {identifier}')
         print(f"{dt.datetime.now()}: Video will be saved")
         if out_stream is not None:
             out_stream.release()
+            cv2.destroyAllWindows()
             print(f"{dt.datetime.now()}: Video SAVED")
 
 
