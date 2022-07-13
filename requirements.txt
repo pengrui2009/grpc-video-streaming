@@ -1,6 +1,0 @@
-autopep8
-pylint
-grpcio
-grpcio-tools
-opencv-python
-scikit-video

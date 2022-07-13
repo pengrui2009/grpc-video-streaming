@@ -1,35 +1,40 @@
-version: "3.7"
+version: "3"
 
 services:
-  # grpc-video-server-python:
-  #   image: grpc-video-server-python
-  #   build:
-  #     context: .
-  #     dockerfile: video-server-python/Dockerfile
-  #   ports:
-  #     - 50051:50051
-  #   volumes:
-  #     - videos:/src/videos
-
-  grpc-video-server-dotnetcore:
-    image: grpc-video-server-dotnetcore
+  server:
     build:
       context: .
-      dockerfile: video-server-dotnetcore/Dockerfile
+      dockerfile: ./Docker/Server.Dockerfile
+    image: vid-stream-back:latest
+    command: make run-server
+    ports: 
+      - 50051:50051
+  
+  py-client:
+    build:
+      context: .
+      dockerfile: ./Docker/Client.Dockerfile
+    image: vid-stream-client:latest
+    network_mode: host
+    command: make run-client
+    restart: on-failure:10
+    depends_on:
+      - server
+  
+  js-client:
+    build:
+      context: ./vidview
+      dockerfile: ./Docker/JS.Dockerfile
+    image: vid-stream-js-client:latest
+    command: npm start
+    restart: always
     ports:
-      - "8080:80"
-      - "44321:443"
-      - "5001:5001"
-    volumes:
-      - videos:/src/videos
+      - 3000:3000
 
-  # front:
-  #   image: front
-  #   build:
-  #     context: .
-  #     dockerfile: front/Dockerfile
-  #   ports:
-  #     - 3000:3000
-
-volumes:
-  videos:
+  envoy:
+    build:
+      context: .
+      dockerfile: ./Docker/Envoy.Dockerfile
+    image: vid-stream-envoy
+    ports:
+      - 8080:8080

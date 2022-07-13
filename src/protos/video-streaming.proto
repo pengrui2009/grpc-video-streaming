@@ -1,0 +1,29 @@
+syntax = "proto3";
+package protos;
+
+service VideoStreamer {
+    // Get video stream (watch)
+    rpc getVideoStream(VideoMetaData) returns (stream VideoFrames) {}
+
+    // Request start/stop of video stream (control)
+    rpc controlStream(ClientStreamSignal) returns (ServerStreamSignal) {}
+
+}
+
+message ClientStreamSignal{
+    int32 signal = 1; // 0 for False, 1 for True
+    int32 stream = 2; // 0: file， 1:camera 2:other
+}
+message ServerStreamSignal{
+    int32 signal = 1; // 0 for False, 1 for True
+}
+message VideoMetaData{
+    string value = 1;
+    int32 html = 2;
+}
+
+message VideoFrames{
+    string b64image = 1;
+    int32 width = 2;
+    int32 height = 3;
+}

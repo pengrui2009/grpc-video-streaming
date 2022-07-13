@@ -1,42 +1,37 @@
-# video-streaming-grpc
+# Video Streaming Project with gRPC API.
 
-## Prerequisites
-1. Installed Python Python 3.7.6 +
-1. Camera connected to computer
+# gRPC
+gRPC is an Remote Procedure Call System. It is particularly useful for micro-services based archietecture platforms. Suppose we have multiple micro services implemented in different languages like C++, Python, NodeJS, and multiple clients implemented in Android-java, Ruby, React-Javascript. Then gRPC will ease the service-client communication by transfering messages through Google's language and platform neutral serialized data structure called Protobuf. Since gRPC uses protobuf to communicate between the client and services, it is also efficient in comparison with communication through JSON or XML because protobuf allows its data to be serialized and deserialized when needed.
 
-## Start project without docker
-1. If on linux:
-```bash
-sudo apt-get update
-sudo apt-get install -y libgtk2.0-dev
-```
-1. Install required PIP packages from requirments.txt in root folder
-```bash
-pip install -r requirments.txt
-```
-1. Run server
-```bash
-python ./src/server/server.py
-```
-1. Run client
-```bash
-python ./src/client/client.py
-```
+# Technologies used so far.
+Python, OpenCV, gRPC, Protobufs, Threading.
 
-## Run with docker
-1. Run docker-compose
-```bash
-docker-compose -f "src\docker-compose.yml" up -d --build
-```
-1. Run client
-```bash
-python ./src/client/client.py
-```
+# Project
+Video streaming is an example of server-streaming rpc and that is one of the 4 paradigms of gRPC API. 
+The server-streaming RPC is similar to a unary RPC, except that the server returns a stream of messages in response to a client’s request. 
+In our example, the client will send a single ping (video uuid), and the server will return return a stream of pongs (video frames).
+
+I also added threads to make video streaming faster on the client side. One thread reads the frame from the given video and puts it in a 
+queue, and then the second thread sends the frames to the client by reading the frames from the queue at constant rate that is dependent
+based on the given video's FPS.
+
+# Future
+1. Integrate this video-streamer on HTTP Protocol. 
+2. Create a client in React to play video files.
+
+# Steps to run the current program locally.
+1. Git clone this repo.
+2. Run ```pip3 -r install requirements.txt```
+3. From root directory run the following command ```make fresh-protos-for-breakfast``` to compile the protos. 
+4. Then open two terminal windows(one for client, and one for server).
+5. Then run ```make run-client``` and ```make run-server``` on the respective terminals.
+
+# Steps to run the current program on Docker. ( In progress, still figuring out how to run GUI apps on Docker)
+1. ```docker-compose build```
+2. ```docker-compose up```
 
 
-## Generate new proto files example
-1. Run from root folder
-```bash
-python -m grpc_tools.protoc -I./src/protos --python_out=./src/video-server --grpc_python_out=./src/video-server ./src/protos/video_frame.proto
-python -m grpc_tools.protoc -I./src/protos --python_out=./src/video-sender --grpc_python_out=./src/video-sender ./src/protos/video_frame.proto
-```
+# Picture of Demo
+![demo_plot](./demo.png)
+# Author
+Rohan Deshpande
